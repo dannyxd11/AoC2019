@@ -15,10 +15,10 @@ func check(e error) {
 
 func convertFloatToIntArray(current float64) []int {
 	scurrent := strconv.FormatFloat(current, 'f', -1, 64)
-	sacurrent := strings.Split(scurrent, "")
+	saCurrent := strings.Split(scurrent, "")
 
 	var acurrent []int
-	for _, v := range sacurrent {
+	for _, v := range saCurrent {
 		i, err := strconv.Atoi(v)
 		check(err)
 		acurrent = append(acurrent, i)
@@ -100,21 +100,21 @@ func isValidPwdP2(current float64) (isValid bool) {
 	}
 
 	for i := 0; i < len(pwd); i++ {
-		consecCounter := 1
+		consecutiveCounter := 1
 		for j := 1; j+i < len(pwd); j++ {
 			if pwd[i] == pwd[i+j] {
-				consecCounter += 1
-				if i+j == len(pwd)-1 && consecCounter%2 != 0 {
+				consecutiveCounter += 1
+				if i+j == len(pwd)-1 && consecutiveCounter%2 != 0 {
 					return false
 				}
 			} else {
 				break
 			}
 		}
-		if consecCounter > 1 && consecCounter == 2 {
+		if consecutiveCounter > 1 && consecutiveCounter == 2 {
 			return true
 		} else {
-			i += consecCounter - 1
+			i += consecutiveCounter - 1
 		}
 
 	}

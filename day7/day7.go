@@ -53,7 +53,7 @@ type Operation struct {
 // https://stackoverflow.com/questions/30226438/generate-all-permutations-in-go
 func permutations(arr []int) [][]int {
 	var helper func([]int, int)
-	res := [][]int{}
+	var res [][]int
 
 	helper = func(arr []int, n int) {
 		if n == 1 {
@@ -126,8 +126,8 @@ func getInput() int {
 func getVal(program *[]int, param Parameter) int {
 	if param.mode == 0 {
 		log.WithFields(log.Fields{
-			"param":               param,
-			"prrogram[param.val]": (*program)[param.val],
+			"param":              param,
+			"program[param.val]": (*program)[param.val],
 		}).Trace("Getting Value (Position)")
 		return (*program)[param.val]
 	} else if param.mode == 1 {
@@ -308,8 +308,8 @@ func loadAndRun(file io.ReadSeeker, inputs []int, mode string, ip int) ([]int, i
 }
 
 func part1(file io.ReadSeeker) {
-	P1phase_codes := []int{0, 1, 2, 3, 4}
-	P1perms := permutations(P1phase_codes)
+	P1PhaseCodes := []int{0, 1, 2, 3, 4}
+	P1perms := permutations(P1PhaseCodes)
 	P1highestOutput, P1highestIndex := -1, -1
 	for i, v := range P1perms {
 		output := []int{0}
@@ -333,16 +333,16 @@ func part1(file io.ReadSeeker) {
 }
 
 func part2(file io.ReadSeeker) {
-	P2phase_codes := []int{5, 6, 7, 8, 9}
-	P2perms := permutations(P2phase_codes)
+	P2PhaseCodes := []int{5, 6, 7, 8, 9}
+	P2perms := permutations(P2PhaseCodes)
 	//P2perms := [][]int{{5,6,7,8,9}}
 	P2highestOutput, P2highestIndex := -1, -1
 
 	for i, v := range P2perms {
-		output := []int{}
+		var output []int
 		P2amplifierState := map[int]ProgramState{}
 		for p := 0; ; p++ {
-			inputs := []int{}
+			var inputs []int
 
 			state := P2amplifierState[p%5]
 			if !state.initialised {

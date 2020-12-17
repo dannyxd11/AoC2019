@@ -102,7 +102,7 @@ func load(file io.ReadSeeker) (image Image) {
 
 	fs := bufio.NewScanner(file)
 	fs.Scan()
-	raw_encoding := fs.Text()
+	rawEncoding := fs.Text()
 
 	width, height, length := 25, 6, len(fs.Bytes())
 	depth := length / width / height
@@ -116,7 +116,7 @@ func load(file io.ReadSeeker) (image Image) {
 		"depth":  depth,
 	}).Debug("Creating 3D array")
 
-	for i, v := range raw_encoding {
+	for i, v := range rawEncoding {
 		vi, _ := strconv.Atoi(string(v))
 		image.SetElementByInd(i, vi)
 	}
@@ -127,24 +127,24 @@ func load(file io.ReadSeeker) (image Image) {
 func part1(file io.ReadSeeker) {
 	image := load(file)
 
-	min_layer := -1
-	min_zeros := image.length
+	mLayer := -1
+	mZeros := image.length
 	count := 0
 	for z := 0; z < image.depth; z++ {
 		count = image.CountDigitsOnLayer(z, 0)
 
 		log.WithFields(log.Fields{"Layer": z, "Count": count}).Debug("Layer count")
-		if count < min_zeros {
-			min_layer = z
-			min_zeros = count
+		if count < mZeros {
+			mLayer = z
+			mZeros = count
 		}
 	}
 
-	ones := image.CountDigitsOnLayer(min_layer, 1)
-	twos := image.CountDigitsOnLayer(min_layer, 2)
+	ones := image.CountDigitsOnLayer(mLayer, 1)
+	twos := image.CountDigitsOnLayer(mLayer, 2)
 	log.WithFields(log.Fields{
-		"Layer":    min_layer,
-		"Count 0s": min_zeros,
+		"Layer":    mLayer,
+		"Count 0s": mZeros,
 		"Count 1s": ones,
 		"Count 2s": twos,
 		"Answer":   twos * ones,
